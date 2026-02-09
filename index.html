@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>magikarp & tatsugiri</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffd6e8, #ffeef5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .card {
+      background: white;
+      padding: 40px 50px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      color: #e6397e;
+      font-size: 2rem;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 26px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+      background: #ff5fa2;
+      color: white;
+      transform: scale(1);
+    }
+
+    #noBtn {
+      background: #f1f1f1;
+      color: #555;
+    }
+
+    img {
+      max-width: 280px;
+      margin-top: 25px;
+      image-rendering: pixelated;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Will you be my Valentine? 💖</h1>
+    <div class="buttons">
+      <button id="yesBtn">Yes 💕</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+
+  <script>
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+
+  let scale = 1;
+
+  noBtn.addEventListener("click", () => {
+    scale += 0.25;
+    yesBtn.style.transform = `scale(${scale})`;
+  });
+
+  function launchConfetti() {
+    const confettiCount = 120;
+    const colors = ["#ff5fa2", "#ffd6e8", "#e6397e", "#fff"];
+
+    for (let i = 0; i < confettiCount; i++) {
+      const confetti = document.createElement("div");
+      confetti.style.position = "fixed";
+      confetti.style.width = "8px";
+      confetti.style.height = "8px";
+      confetti.style.backgroundColor =
+        colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.top = "-10px";
+      confetti.style.opacity = Math.random();
+      confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+      confetti.style.transition = "transform 3s linear, top 3s linear, opacity 3s";
+      confetti.style.zIndex = 9999;
+
+      document.body.appendChild(confetti);
+
+      requestAnimationFrame(() => {
+        confetti.style.top = "110vh";
+        confetti.style.transform = `rotate(${Math.random() * 720}deg)`;
+        confetti.style.opacity = 0;
+      });
+
+      setTimeout(() => confetti.remove(), 3000);
+    }
+  }
+
+  yesBtn.addEventListener("click", () => {
+    launchConfetti();
+
+    document.body.innerHTML = `
+      <div style="
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:linear-gradient(135deg,#ffd6e8,#ffeef5);
+        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+        text-align:center;
+      ">
+        <div>
+          <h1 style="font-size:2.4rem;color:#e6397e;">
+            magikarp & tatsugiri 💖
+          </h1>
+          <p style="font-size:1.3rem;margin-bottom:10px;">
+            YAY!!! Best Valentine ever 🥰
+          </p>
+          <img src="couple.png" alt="Pixel couple" style="max-width:280px; image-rendering:pixelated;">
+        </div>
+      </div>
+    `;
+  });
+</script>
+</body>
+</html>
