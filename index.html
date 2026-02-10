@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>magikarp & tatsugiri</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
     body {
       margin: 0;
@@ -20,15 +21,14 @@
     .card {
       background: white;
       padding: 40px 50px;
-      border-radius: 20px;
-      text-align: center;
+      border-radius: 24px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      max-width: 560px;
+      max-width: 640px;
       margin: 20px;
     }
 
     h1 {
-      margin: 0 0 30px;
+      margin: 0 0 26px;
       color: #e6397e;
       font-size: 2rem;
     }
@@ -37,7 +37,6 @@
       display: flex;
       gap: 20px;
       justify-content: center;
-      flex-wrap: wrap;
     }
 
     button {
@@ -59,8 +58,47 @@
       background: #f1f1f1;
       color: #555;
     }
+
+    /* ---------- FINAL IMAGE LAYOUT ---------- */
+
+    .final-images{
+      display: grid;
+      grid-template-columns: 140px 1fr 140px;
+      align-items: center;
+      justify-items: center;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .rose{
+      width: 120px;
+      image-rendering: pixelated;
+      opacity: 0.95;
+    }
+
+    .rose-right{
+      transform: scaleX(-1);
+    }
+
+    .couple{
+      max-width: 320px;
+      image-rendering: pixelated;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    /* Mobile fallback */
+    @media (max-width: 560px){
+      .final-images{
+        grid-template-columns: 1fr;
+      }
+      .rose-right{
+        transform: none;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="card">
     <h1>Will you be my Valentine? 💖</h1>
@@ -82,10 +120,10 @@
     });
 
     function launchConfetti() {
-      const confettiCount = 140;
+      const count = 140;
       const colors = ["#ff5fa2", "#ffd6e8", "#e6397e", "#ffffff"];
 
-      for (let i = 0; i < confettiCount; i++) {
+      for (let i = 0; i < count; i++) {
         const c = document.createElement("div");
         c.style.position = "fixed";
         c.style.width = "8px";
@@ -93,7 +131,7 @@
         c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         c.style.left = Math.random() * 100 + "vw";
         c.style.top = "-10px";
-        c.style.opacity = (0.4 + Math.random() * 0.6).toString();
+        c.style.opacity = Math.random();
         c.style.transform = `rotate(${Math.random() * 360}deg)`;
         c.style.transition = "transform 3s linear, top 3s linear, opacity 3s";
         c.style.zIndex = 9999;
@@ -113,9 +151,6 @@
     yesBtn.addEventListener("click", () => {
       launchConfetti();
 
-      // NOTE:
-      // - couple.png should be in the repo root
-      // - rose.png should be a PNG WITH TRANSPARENT BACKGROUND in the repo root
       document.body.innerHTML = `
         <div style="
           height:100vh;
@@ -125,66 +160,25 @@
           align-items:center;
           background:linear-gradient(135deg,#ffd6e8,#ffeef5);
           font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-          text-align:center;
           overflow:hidden;
         ">
-          <div style="
-            background:white;
-            padding:40px 50px;
-            border-radius:20px;
-            box-shadow:0 20px 40px rgba(0,0,0,0.15);
-            max-width:600px;
-            margin:20px;
-          ">
-            <h1 style="margin:0 0 10px;font-size:2.4rem;color:#e6397e;">
+          <div class="card">
+            <h1 style="font-size:2.4rem;color:#e6397e;margin-bottom:8px;">
               magikarp & tatsugiri 💖
             </h1>
-            <p style="font-size:1.25rem;margin:0 0 12px;">
+            <p style="font-size:1.25rem;margin:0;">
               YAY!!! Best Valentine ever 🥰
             </p>
 
-            <div style="
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              gap:24px;
-              margin-top:20px;
-              flex-wrap:wrap;
-            ">
-              <!-- Left rose -->
-              <img src="rose.png"
-                   alt="Rose"
-                   style="
-                     width:120px;
-                     image-rendering:pixelated;
-                     opacity:0.9;
-                   ">
-
-              <!-- Main couple image -->
-              <img src="couple.png"
-                   alt="Pixel couple"
-                   style="
-                     max-width:320px;
-                     image-rendering:pixelated;
-                     border-radius:24px;
-                     box-shadow:0 10px 25px rgba(0,0,0,0.15);
-                   ">
-
-              <!-- Right rose (mirrored) -->
-              <img src="rose.png"
-                   alt="Rose"
-                   style="
-                     width:120px;
-                     image-rendering:pixelated;
-                     transform: scaleX(-1);
-                     opacity:0.9;
-                   ">
+            <div class="final-images">
+              <img src="rose.png" class="rose" alt="Rose">
+              <img src="couple.png" class="couple" alt="Pixel couple">
+              <img src="rose.png" class="rose rose-right" alt="Rose">
             </div>
           </div>
         </div>
       `;
 
-      // Extra confetti wave after the page swap
       setTimeout(launchConfetti, 250);
     });
   </script>
